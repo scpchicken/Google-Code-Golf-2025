@@ -1,0 +1,16 @@
+#!/usr/bin/bash
+
+echo "start check"
+
+python3 check.py "$@"
+
+ret=$?
+
+if [ $ret -eq 2 ]; then
+  echo "empty folder"
+elif [ $ret -ne 0 ]; then
+  echo "ERROR"
+  exit $ret
+fi
+
+echo "done check"

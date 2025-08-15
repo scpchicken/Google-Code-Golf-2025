@@ -1,13 +1,19 @@
 #!/usr/bin/bash
 
 echo "start purge"
-python3 purge.py "$@"
 
-ret=$?
+for arg in "$@"; do
+  echo "purge $arg"
+  python3 purge.py "$arg"
 
-if [ $ret -ne 0 ]; then
-   echo "ERROR"
-   exit $ret
-fi
+  ret=$?
+
+  if [ $ret -eq 2 ]; then
+    echo "empty folder"
+  elif [ $ret -ne 0 ]; then
+    echo "ERROR"
+    exit $ret
+  fi
+done
 
 echo "done purge"

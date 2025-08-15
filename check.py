@@ -10,18 +10,27 @@ check = list(range(1,401))
 
 ALL = False
 FOLDER = "submission"
+delete = 0
 
 if len(sys.argv) == 1:
     ALL = True
 
 elif len(sys.argv) == 2:
-    ALL = True
+    if sys.argv[1].isnumeric():
+        check = [int(sys.argv[1])]
+    else:
+        ALL = True
+        FOLDER = sys.argv[1]
+
+elif len(sys.argv) == 3:
     FOLDER = sys.argv[1]
+    check = [int(sys.argv[2])]
 
 else:
-    print("enter nothing or enter a folder")
+    print("enter nothing or enter a folder and/or number")
     exit(1)
 
+ORIG_CHECK_COUNT = len(check)
 if ALL:
     check = []
     for i in range(1,401):
@@ -34,7 +43,7 @@ if not len(check):
 delete_list = []
 for checker in check:
     with open(f"{FOLDER}/task{checker:03}.py") as file:
-        if re.search(r"""\s*def\s+p\(g\):\s*(return\s+g|return\s+\[row\[:\]\s+for\s+row\s+in\s+g\])\s*""",file.read()):
+        if re.search(r"""\s*def\s+p\(g\):\s*return\s+g\s*""",file.read()):
             delete_list.append(checker)
 
 if delete_list:
@@ -42,6 +51,7 @@ if delete_list:
     for delete in delete_list:
         os.remove(f"{FOLDER}/task{delete:03}.py")
         check.remove(delete)
+        delete += 1        
         print(end=f"{delete} ")
 
     print()
@@ -73,24 +83,12 @@ for checker in check:
             continue
         break
 
-print("starting to delete")
 for delete in delete_list:
-    try:
-        os.remove(f"{FOLDER}/task{delete:03}.py")
-    except Exception as e:
-        print("failed to remove", e)
     check.remove(delete)
 
-print(f"yay {len(check)} passed")
-
-with open("golf.json", "r") as file:
-    golf = json.load(file)
-
-golf[FOLDER] = {}
-for c in check:
-    golf[FOLDER][f"{c:03}"] = os.path.getsize(f"{FOLDER}/task{c:03}.py")
-
-with open("golf.json", "w") as file:
-    json.dump(golf, file, indent=4)
+print(f"yay {len(check)}/{ORIG_CHECK_COUNT} passed")
+print(f"{delete} empty")
+print(f"{len(delete_list)} failed")
+print(*delete_list)
 
 exit(0)

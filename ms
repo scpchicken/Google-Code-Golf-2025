@@ -11,6 +11,7 @@ if [ $ret -ne 0 ]; then
    exit $ret
 fi
 
-# kaggle competitions submit -c google-code-golf-2025 -f submission.zip -m "pro"
+kaggle competitions submit -c google-code-golf-2025 -f submission.zip -m "pro"
 
+echo ""
 echo "done merge submit"
