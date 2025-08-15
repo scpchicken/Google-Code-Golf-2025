@@ -1,9 +1,6 @@
 # Google-Code-Golf-2025
 
-## Solution Sources:
-https://www.kaggle.com/code/jacekwl/a-bit-more-of-code-golf-255-400-visualization
-https://www.kaggle.com/code/seshurajup/code-golf-ensemble-local-score-391-400-dsl
-https://www.kaggle.com/code/fedimser/arc-agi-code-golf-216-400-solved
+Download zip folder submissions from the code tab on Kaggle and extract them
 
 ```bash
 # purge folder for bad solution and add working ones to golf.json
